@@ -31,8 +31,8 @@ Hooks.on("createChatMessage", (message) => {
     if (!hasDataSiphon) return;
 
     // Verify Tech Attack
-    const isTechAttack = message.flags?.lancer?.attackData?.invade === "tech" || 
-                         (message.content && message.content.toLowerCase().includes("tech attack"));
+    const isTechAttack = message.flags?.lancer?.attackData?.invade || 
+                         (message.content && message.content.toLowerCase().includes("ATTACK VS E-DEF"));
     messageLogNum = messageLogNum + 1;
     console.log(messageLogNum)
     console.log(message)
