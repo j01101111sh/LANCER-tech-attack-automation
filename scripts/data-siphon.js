@@ -64,15 +64,16 @@ Hooks.on("renderChatMessage", (message, html, data) => {
         if (btn.disabled) return;
         btn.disabled = true;
         btn.innerText = "Scan Data Sent!";
-        console.log(btn)
         const targetUuid = btn.dataset.targetUuid;
         const tActor = await fromUuid(targetUuid);
+        console.log(tActor)
 
         if (!tActor) {
             ui.notifications.error("Data Siphon: Could not locate target actor data.");
             return;
         }
         // Run Scan macro from LANCER core
+        tActor.setTarget(true)
         game.macros.getName("Scan").execute();
     });
 });
