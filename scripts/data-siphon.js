@@ -1,7 +1,8 @@
 // HOOK 1: Catch the Tech Attack and message the GM
 Hooks.on("createChatMessage", (message) => {
     // Validate system and author
-    if (game.system.id !== "lancer" || !message.isAuthor) return;
+    console.log(message)
+    console.log(game.actors.get(speakerId))
 
     // Ensure valid actor
     const speakerId = message.speaker.actor;
