@@ -96,7 +96,7 @@ Hooks.on("renderChatMessage", (message, html, data) => {
             ui.notifications.error("Data Siphon: Could not locate target actor data.");
             return;
         }
-
+        game.macros.getName("Scan").execute();
         // Fetch stats
         const sys = tActor.system;
         const hp = sys.derived?.hp?.value ?? sys.hp?.value ?? "?";
