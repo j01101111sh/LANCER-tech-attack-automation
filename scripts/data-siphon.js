@@ -96,37 +96,7 @@ Hooks.on("renderChatMessage", (message, html, data) => {
             ui.notifications.error("Data Siphon: Could not locate target actor data.");
             return;
         }
+        // Run Scan macro from LANCER core
         game.macros.getName("Scan").execute();
-        // Fetch stats
-        const sys = tActor.system;
-        const hp = sys.derived?.hp?.value ?? sys.hp?.value ?? "?";
-        const maxHp = sys.derived?.hp?.max ?? sys.hp?.max ?? "?";
-        const heat = sys.derived?.heat?.value ?? sys.heat?.value ?? "?";
-        const maxHeat = sys.derived?.heat?.max ?? sys.heat?.max ?? "?";
-        const evasion = sys.derived?.evasion ?? sys.evasion ?? "?";
-        const edef = sys.derived?.edef ?? sys.edef ?? "?";
-        const speed = sys.derived?.speed ?? sys.speed ?? "?";
-        const armor = sys.derived?.armor ?? sys.armor ?? "?";
-
-        // Construct HTML Chat Card for the Player
-        let playerContent = `
-            <div class="lancer">
-                <div class="message-content">
-                    <h3 style="text-align:center; border-bottom: 1px solid white;">Data Siphon: Scan Complete</h3>
-                    <p><strong>Target:</strong> ${tActor.name}</p>
-                    <p><strong>HP:</strong> ${hp} / ${maxHp} | <strong>Armor:</strong> ${armor}</p>
-                    <p><strong>Heat:</strong> ${heat} / ${maxHeat}</p>
-                    <p><strong>Evasion:</strong> ${evasion} | <strong>E-Defense:</strong> ${edef}</p>
-                    <p><strong>Speed:</strong> ${speed}</p>
-                    <p style="font-size: 0.85em; color: #aaa;"><em>Target's Weapons, Systems, and Traits are now known.</em></p>
-                </div>
-            </div>
-        `;
-
-        // Send the data back to the attacking player
-        ChatMessage.create({
-            speaker: ChatMessage.getSpeaker({ alias: "Data Siphon System" }),
-            content: playerContent
-        });
     });
 });
