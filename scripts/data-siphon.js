@@ -69,7 +69,6 @@ Hooks.on("createChatMessage", (message) => {
 
         ChatMessage.create({
             blind: true,
-            speaker: ChatMessage.getSpeaker({ alias: "Data Siphon System" }),
             content: gmContent,
             whisper: game.users?.filter(u => u.isGM).map(u => u.id)
         });
