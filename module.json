@@ -13,6 +13,11 @@
       "name": "j01101111sh"
     }
   ],
+  "url": "#{URL}#",
+  "manifest": "#{MANIFEST}#",
+  "download": "#{DOWNLOAD}#",
+  "license": "LICENSE",
+  "readme": "README.md",
   "relationships": {
     "systems": [
       {
