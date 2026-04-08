@@ -35,6 +35,9 @@ Hooks.on("createChatMessage", (message) => {
                          (message.content && message.content.toLowerCase().includes("tech attack"));
     messageLogNum = messageLogNum + 1;
     console.log(messageLogNum)
+    console.log(message.flags?.lancer?.roll?.type)
+    console.log(message.content)
+    console.log(message.content.toLowerCase().includes("tech attack"))
     console.log(isTechAttack)
     if (!isTechAttack) return;
 
