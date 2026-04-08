@@ -36,7 +36,7 @@ Hooks.on("createChatMessage", (message) => {
                 <div class="message-content">
                     <h3 style="text-align:center; border-bottom: 1px solid white;">Data Siphon Triggered</h3>
                     <p><b>${actor.name}</b> is attempting to Scan <b>${tActor.name}</b>.</p>
-                    <button class="data-siphon-approve" data-target-uuid="${tActor.uuid}" data-player-id="${game.user.id}">
+                    <button class="data-siphon-approve" data-target-uuid="${target.id}" data-player-id="${game.user.id}">
                         Approve & Send Scan Data
                     </button>
                 </div>
@@ -77,7 +77,9 @@ Hooks.on("renderChatMessage", (message, html, data) => {
             return;
         }
         // Run Scan macro from LANCER core
-        token.setTarget(true)
+        const tokenId = ev.currentTarget.dataset.tokenId;
+        const targetToken = canvas.tokens.get(tokenId);
+        targetToken.setTarget(true, { releaseOthers: true });
         game.macros.getName("Scan").execute();
     });
 });
