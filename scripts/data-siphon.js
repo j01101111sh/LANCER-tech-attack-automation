@@ -27,6 +27,7 @@ Hooks.on("createChatMessage", (message) => {
 
     // Build whisper for GM approval
     targets.forEach(target => {
+        console.log(target)
         const tActor = target.actor;
         if (!tActor) return;
 
