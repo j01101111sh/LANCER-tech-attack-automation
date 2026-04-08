@@ -70,7 +70,7 @@ Hooks.on("createChatMessage", (message) => {
         ChatMessage.create({
             speaker: ChatMessage.getSpeaker({ alias: "Data Siphon System" }),
             content: gmContent,
-            whisper: ChatMessage.getWhisperRecipients("GM").map(u => u.id)
+            whisper: game.users?.filter(u => u.isGM).map(u => u.id)
         });
     });
 });
