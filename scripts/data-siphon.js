@@ -90,7 +90,6 @@ Hooks.on("renderChatMessage", (message, html, data) => {
         btn.innerText = "Scan Data Sent!";
 
         const targetUuid = btn.dataset.targetUuid;
-        const playerId = btn.dataset.playerId;
         const tActor = await fromUuid(targetUuid);
 
         if (!tActor) {
@@ -127,8 +126,7 @@ Hooks.on("renderChatMessage", (message, html, data) => {
         // Send the data back to the attacking player
         ChatMessage.create({
             speaker: ChatMessage.getSpeaker({ alias: "Data Siphon System" }),
-            content: playerContent,
-            whisper: [playerId]
+            content: playerContent
         });
     });
 });
