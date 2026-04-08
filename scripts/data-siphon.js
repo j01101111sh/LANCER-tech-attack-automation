@@ -45,7 +45,8 @@ Hooks.on("createChatMessage", (message) => {
         ChatMessage.create({
             blind: true,
             content: gmContent,
-            whisper: game.users?.filter(u => u.isGM).map(u => u.id)
+            whisper: game.users?.filter(u => u.isGM).map(u => u.id),
+
         });
     });
 });
@@ -63,7 +64,7 @@ Hooks.on("renderChatMessage", (message, html, data) => {
         if (btn.disabled) return;
         btn.disabled = true;
         btn.innerText = "Scan Data Sent!";
-
+        console.log(btn)
         const targetUuid = btn.dataset.targetUuid;
         const tActor = await fromUuid(targetUuid);
 
