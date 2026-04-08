@@ -2,7 +2,7 @@
   "id": "LANCER-tech-attack-automation",
   "title": "LANCER Tech Attack Automation",
   "description": "Automatically handles actions resulting from tech attacks.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "compatibility": {
     "minimum": "12",
     "verified": "12"

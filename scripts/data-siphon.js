@@ -1,13 +1,23 @@
 // HOOK 1: Catch the Tech Attack and message the GM
 Hooks.on("createChatMessage", (message) => {
     // Validate system and author
-    console.log(message)
-    console.log(game.actors.get(speakerId))
+    var messageLogNum = 0;
+    messageLogNum = messageLogNum + 1;
+    console.log(messageLogNum)
+    if (game.system.id !== "lancer" || !message.isAuthor) return;
+    messageLogNum = messageLogNum + 1;
+    console.log(messageLogNum)
 
     // Ensure valid actor
     const speakerId = message.speaker.actor;
+    messageLogNum = messageLogNum + 1;
+    console.log(messageLogNum)
+    console.log(speakerId)
     if (!speakerId) return;
     const actor = game.actors.get(speakerId);
+    messageLogNum = messageLogNum + 1;
+    console.log(messageLogNum)
+    console.log(actor)
     if (!actor) return;
 
     // Verify Chomolungma or Data Siphon
@@ -15,15 +25,24 @@ Hooks.on("createChatMessage", (message) => {
         i.name.toLowerCase() === "chomolungma" || 
         i.name.toLowerCase() === "data siphon"
     );
+    messageLogNum = messageLogNum + 1;
+    console.log(messageLogNum)
+    console.log(hasDataSiphon)
     if (!hasDataSiphon) return;
 
     // Verify Tech Attack
     const isTechAttack = message.flags?.lancer?.roll?.type === "tech" || 
                          (message.content && message.content.toLowerCase().includes("tech attack"));
+    messageLogNum = messageLogNum + 1;
+    console.log(messageLogNum)
+    console.log(isTechAttack)
     if (!isTechAttack) return;
 
     // Get targets
     const targets = Array.from(game.user.targets);
+    messageLogNum = messageLogNum + 1;
+    console.log(messageLogNum)
+    console.log(targets)
     if (targets.length === 0) return;
 
     // Build whisper for GM approval
