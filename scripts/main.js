@@ -1,4 +1,5 @@
 import { initDataSiphonHooks } from "./data-siphon.js";
+import { initEjectPowerCoresHooks } from "./eject-power-cores.js";
 
 /* ------------------------------------ */
 /* Initialize Module                    */
@@ -17,4 +18,6 @@ Hooks.once("ready", function () {
 
   // 2. Call the imported functions to activate their event listeners
   initDataSiphonHooks();
+  initEjectPowerCoresHooks();
+  console.log("finished ready");
 });
