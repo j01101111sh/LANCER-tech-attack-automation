@@ -1,85 +1,70 @@
-// HOOK 1: Catch the Tech Attack and message the GM
-Hooks.on("createChatMessage", (message) => {
-    // Validate system and author
-    if (game.system.id !== "lancer" || !message.isAuthor) return;
+// data-siphon.js
+import { performScan } from "./scan-utility.js";
 
-    // Ensure valid actor
-    const speakerId = message.speaker.actor;
+// ==========================================
+// 1. PRE-CREATE HOOK: Save the Targets
+// ==========================================
+Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
+    if (game.system.id !== "lancer" || userId !== game.user.id) return;
+
+    const isTechAttack = message.flags?.lancer?.attackData?.invade || 
+                         (message.content && message.content.toLowerCase().includes("attack vs e-def"));
+    if (!isTechAttack) return;
+
+    const speakerId = data.speaker?.actor;
     if (!speakerId) return;
     const actor = game.actors.get(speakerId);
     if (!actor) return;
 
-    // Verify Chomolungma or Data Siphon
     const hasDataSiphon = actor.items.some(i => 
         i.name.toLowerCase() === "chomolungma" || 
         i.name.toLowerCase() === "data siphon"
     );
     if (!hasDataSiphon) return;
 
-    // Verify Tech Attack
-    const isTechAttack = message.flags?.lancer?.attackData?.invade || 
-                         (message.content && message.content.toLowerCase().includes("ATTACK VS E-DEF"));
-    if (!isTechAttack) return;
+    const targetIds = Array.from(game.user.targets).map(t => t.id);
+    if (targetIds.length === 0) return;
 
-    // Get targets
-    const targets = Array.from(game.user.targets);
-    if (targets.length === 0) return;
-
-    // Build whisper for GM approval
-    targets.forEach(target => {
-        console.log(target)
-        const tActor = target.actor;
-        if (!tActor) return;
-
-        let gmContent = `
-            <div class="lancer">
-                <div class="message-content">
-                    <h3 style="text-align:center; border-bottom: 1px solid white;">Data Siphon Triggered</h3>
-                    <p><b>${actor.name}</b> is attempting to Scan <b>${tActor.name}</b>.</p>
-                    <button class="data-siphon-approve" data-target-uuid="${target.id}" data-player-id="${game.user.id}">
-                        Approve & Send Scan Data
-                    </button>
-                </div>
-            </div>
-        `;
-
-        ChatMessage.create({
-            blind: true,
-            content: gmContent,
-            whisper: game.users?.filter(u => u.isGM).map(u => u.id),
-
-        });
+    message.updateSource({
+        "flags.dataSiphon.targetIds": targetIds
     });
 });
 
-// HOOK 2: Listen for the GM clicking the approval button
+// ==========================================
+// 2. RENDER HOOK: Inject the Button
+// ==========================================
 Hooks.on("renderChatMessage", (message, html, data) => {
-    // Only the GM should be able to execute this script
-    if (!game.user.isGM) return;
+    const targetIds = message.getFlag("dataSiphon", "targetIds");
+    if (!targetIds || targetIds.length === 0) return;
 
-    html.find('.data-siphon-approve').click(async (ev) => {
+    const buttonHtml = `
+        <div class="lancer data-siphon-container" style="margin-top: 5px; border-top: 1px solid var(--color-border-dark); padding-top: 5px;">
+            <button class="data-siphon-btn" style="background: rgba(0, 255, 100, 0.1); border: 1px solid #00ff64; color: var(--color-text-light-highlight);">
+                <i class="fas fa-satellite-dish"></i> Execute Data Siphon
+            </button>
+        </div>
+    `;
+
+    html.find('.message-content').append(buttonHtml);
+
+    html.find('.data-siphon-btn').click(async (ev) => {
         ev.preventDefault();
         const btn = ev.currentTarget;
         
-        // Prevent double-clicking
         if (btn.disabled) return;
         btn.disabled = true;
-        btn.innerText = "Scan Data Sent!";
-        const targetUuid = btn.dataset.targetUuid;
-        console.log(targetUuid)
-        const tActor = await fromUuid(targetUuid);
-        console.log(tActor)
-        const token = canvas.tokens.get(targetUuid);
-        console.log(token)
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Scanning...`;
 
-        if (!tActor) {
-            ui.notifications.error("Data Siphon: Could not locate target actor data.");
-            return;
+        for (let id of targetIds) {
+            const token = canvas.tokens.get(id);
+            if (token) {
+                // This calls the imported function from scan-utility.js
+                performScan(token);
+            } else {
+                ui.notifications.warn("Data Siphon: Target token is no longer on the current scene.");
+            }
         }
-        // Run Scan macro from LANCER core
-        const tokenId = ev.currentTarget.dataset.tokenId;
-        const targetToken = canvas.tokens.get(tokenId);
-        targetToken.setTarget(true, { releaseOthers: true });
-        game.macros.getName("Scan").execute();
+        
+        btn.innerHTML = `<i class="fas fa-check"></i> Scan Complete`;
     });
 });
