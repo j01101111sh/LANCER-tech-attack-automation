@@ -50,7 +50,7 @@ Hooks.on("renderChatMessage", (message, html, data) => {
 
     const buttonHtml = `
         <div class="lancer data-siphon-container" style="margin-top: 5px; border-top: 1px solid var(--color-border-dark); padding-top: 5px;">
-            <button class="data-siphon-btn" style="background: rgba(0, 255, 100, 0.1); border: 1px solid #00ff64; color: var(--color-text-light-highlight);">
+            <button class="data-siphon-btn flow-button lancer-button">
                 <i class="fas fa-satellite-dish"></i> Execute Data Siphon
             </button>
         </div>
