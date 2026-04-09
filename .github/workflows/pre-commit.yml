@@ -1,0 +1,25 @@
+name: pre-commit
+
+# Triggers the workflow on pushes to the main branch and any pull request
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Check out the repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Set up a Python environment (required for pre-commit)
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      # 3. Run the official pre-commit action
+      - name: Run pre-commit
+        uses: pre-commit/action@v3.0.1
