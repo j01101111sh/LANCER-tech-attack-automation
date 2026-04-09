@@ -101,7 +101,7 @@ export function performScan(target) {
     });
   }
 
-  // Whisper the final Scan chat card directly to the user who clicked the button
+  // Send the final Scan chat card directly to the user who clicked the button
   ChatMessage.create({
     speaker: ChatMessage.getSpeaker({ alias: "Data Siphon System" }),
     content: `
@@ -139,6 +139,5 @@ export function performScan(target) {
                 </details>
             </div>
         `,
-    whisper: [game.user.id],
   });
 }
