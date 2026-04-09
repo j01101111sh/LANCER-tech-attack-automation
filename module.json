@@ -7,7 +7,7 @@
     "minimum": "12",
     "verified": "12"
   },
-  "scripts": ["scripts/data-siphon.js"],
+  "esmodules": ["scripts/data-siphon.js"],
   "authors": [
     {
       "name": "j01101111sh"
