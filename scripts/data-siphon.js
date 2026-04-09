@@ -23,7 +23,11 @@ Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
     if (targetIds.length === 0) return;
 
     message.updateSource({
-        "flags.dataSiphon.targetIds": targetIds
+        flags: {
+            dataSiphon: {
+                targetIds: targetIds
+            }
+        }
     });
     console.log(message)
 });
