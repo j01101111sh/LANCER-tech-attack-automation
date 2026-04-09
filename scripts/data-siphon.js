@@ -7,7 +7,7 @@ Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
     if (game.system.id !== "lancer" || userId !== game.user.id) return;
 
     const isTechAttack = message.getFlag("lancer", "attackData.invade") || 
-                         (message.content && message.content.toLowerCase().includes("attack vs e-def"));
+                         (message.content && message.content.toLowerCase().includes("tech atk"));
     if (!isTechAttack) return;
 
     const speakerId = message.speaker?.actor;
