@@ -25,12 +25,14 @@ Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
     message.updateSource({
         "flags.dataSiphon.targetIds": targetIds
     });
+    console.log(message)
 });
 
 // ==========================================
 // 2. RENDER HOOK: Inject the Button
 // ==========================================
 Hooks.on("renderChatMessage", (message, html, data) => {
+    console.log(message)
     const targetIds = message.getFlag("dataSiphon", "targetIds");
     if (!targetIds || targetIds.length === 0) return;
 
