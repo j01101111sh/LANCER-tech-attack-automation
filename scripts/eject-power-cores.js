@@ -6,27 +6,29 @@ export function initEjectPowerCoresHooks() {
     // Only process the message if the current user is the one creating it
     if (userId !== game.user.id) return;
 
-    const packKey = "world.status-items";
-    const pack = game.packs.get(packKey);
+    const isEjectPowerCores = content.includes("INVADE :: Eject Power Cores");
+    if (!isEjectPowerCores) return;
 
-    if (pack) {
-      const indexEntry = pack.index.getName("Jammed");
-      if (indexEntry) {
-        // Construct the UUID that Foundry uses to generate drag-and-drop links
-        jammedUUID = `Compendium.${packKey}.Item.${indexEntry._id}`;
-        console.log(`Lancer Automation | Cached Jammed UUID: ${jammedUUID}`);
-      } else {
-        console.warn(
-          `Lancer Automation | "Jammed" not found in pack ${packKey}`,
-        );
+    if (!jammedUUID) {
+      const packKey = "world.status-items";
+      const pack = game.packs.get(packKey);
+
+      if (pack) {
+        const indexEntry = pack.index.getName("Jammed");
+        if (indexEntry) {
+          // Construct the UUID that Foundry uses to generate drag-and-drop links
+          jammedUUID = `Compendium.${packKey}.Item.${indexEntry._id}`;
+          console.log(`Lancer Automation | Cached Jammed UUID: ${jammedUUID}`);
+        } else {
+          console.warn(
+            `Lancer Automation | "Jammed" not found in pack ${packKey}`,
+          );
+        }
       }
     }
 
     let content = message.content || "";
-    // Check if this is the Eject Power Cores message.
-    // Adjust this check depending on how you identify Eject Power Cores messages
-    // (e.g., checking message.flags.lancer or the content string itself)
-    const isEjectPowerCores = content.includes("INVADE :: Eject Power Cores");
+    // Check if this is the Eject Power Cores message and there is a jammedUUID.
     if (isEjectPowerCores && jammedUUID) {
       // Replace the whole word "Jammed" with the Foundry link tag
       const updatedContent = content.replace(
