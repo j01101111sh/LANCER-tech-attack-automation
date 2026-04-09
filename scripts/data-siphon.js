@@ -1,3 +1,5 @@
+import { performScan } from "./scan.js";
+
 // ==========================================
 // 1. PRE-CREATE HOOK: Save the Targets
 // ==========================================
@@ -23,7 +25,7 @@ Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
     if (targetIds.length === 0) return;
 
     message.updateSource(foundry.utils.expandObject({
-        "flags.LANCER-tech-attack-automation.dataSiphonTargetIds": targetIds
+        "flags.lancer-tech-attack-automation.dataSiphonTargetIds": targetIds
     }));
     console.log(message)
 });
@@ -33,7 +35,7 @@ Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
 // ==========================================
 Hooks.on("renderChatMessage", (message, html, data) => {
     console.log(message)
-    const targetIds = message.getFlag("LANCER-tech-attack-automation", "dataSiphonTargetIds");
+    const targetIds = message.getFlag("lancer-tech-attack-automation", "dataSiphonTargetIds");
     if (!targetIds || targetIds.length === 0) return;
 
     const buttonHtml = `
@@ -44,9 +46,14 @@ Hooks.on("renderChatMessage", (message, html, data) => {
         </div>
     `;
 
-    html.find('.message-content').append(buttonHtml);
+  const messageContent = html.querySelector('.message-content');
+  if (messageContent) {
+      messageContent.insertAdjacentHTML('beforeend', buttonHtml);
+  }
 
-    html.find('.data-siphon-btn').click(async (ev) => {
+  const btn = html.querySelector('.data-siphon-btn');
+  if (btn) {
+    btn.addEventListener('click', async (ev) => {
         ev.preventDefault();
         const btn = ev.currentTarget;
         
