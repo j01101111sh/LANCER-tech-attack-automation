@@ -14,7 +14,9 @@ export function initDataSiphonHooks() {
 
     const speakerId = message.speaker?.actor;
     if (!speakerId) {
-      console.warn("Lancer Tech Attack Automation | No speaker actor found, aborting.");
+      console.warn(
+        "Lancer Tech Attack Automation | No speaker actor found, aborting.",
+      );
       return;
     }
 
@@ -22,13 +24,17 @@ export function initDataSiphonHooks() {
     if (!actor) return;
 
     const hasDataSiphon = actor.items.some(
-      (i) => i.name.toLowerCase() === "chomolungma" || i.name.toLowerCase() === "data siphon",
+      (i) =>
+        i.name.toLowerCase() === "chomolungma" ||
+        i.name.toLowerCase() === "data siphon",
     );
     if (!hasDataSiphon) return;
 
     const targetIds = Array.from(game.user.targets).map((t) => t.id);
     if (targetIds.length === 0) {
-      console.warn("Lancer Tech Attack Automation | No targets selected, aborting.");
+      console.warn(
+        "Lancer Tech Attack Automation | No targets selected, aborting.",
+      );
       return;
     }
 
@@ -52,7 +58,9 @@ export function initDataSiphonHooks() {
     // -----------------------------------------------------
     // Logic for Ping Token Button (found in scan results)
     // -----------------------------------------------------
-    const pingBtn = html[0]?.querySelector(".ping-target-btn") || html.querySelector?.(".ping-target-btn");
+    const pingBtn =
+      html[0]?.querySelector(".ping-target-btn") ||
+      html.querySelector?.(".ping-target-btn");
     if (pingBtn) {
       pingBtn.addEventListener("click", async (ev) => {
         ev.preventDefault();
@@ -61,10 +69,16 @@ export function initDataSiphonHooks() {
 
         if (token) {
           // Pan the camera to the token and trigger a canvas ping
-          canvas.animatePan({ x: token.center.x, y: token.center.y, duration: 250 });
+          canvas.animatePan({
+            x: token.center.x,
+            y: token.center.y,
+            duration: 250,
+          });
           canvas.ping(token.center);
         } else {
-          ui.notifications.warn("Data Siphon: Target token is no longer on the current scene.");
+          ui.notifications.warn(
+            "Data Siphon: Target token is no longer on the current scene.",
+          );
         }
       });
     }
@@ -72,7 +86,10 @@ export function initDataSiphonHooks() {
     // -----------------------------------------------------
     // Logic for Execute Data Siphon Button
     // -----------------------------------------------------
-    const targetIds = message.getFlag("lancer-tech-attack-automation", "dataSiphonTargetIds");
+    const targetIds = message.getFlag(
+      "lancer-tech-attack-automation",
+      "dataSiphonTargetIds",
+    );
     if (!targetIds || targetIds.length === 0) return;
 
     const buttonHtml = `
@@ -83,12 +100,16 @@ export function initDataSiphonHooks() {
         </div>
     `;
 
-    const messageContent = html[0]?.querySelector(".message-content") || html.querySelector(".message-content");
+    const messageContent =
+      html[0]?.querySelector(".message-content") ||
+      html.querySelector(".message-content");
     if (messageContent) {
       messageContent.insertAdjacentHTML("beforeend", buttonHtml);
     }
 
-    const btn = html[0]?.querySelector(".data-siphon-btn") || html.querySelector(".data-siphon-btn");
+    const btn =
+      html[0]?.querySelector(".data-siphon-btn") ||
+      html.querySelector(".data-siphon-btn");
     if (btn) {
       btn.addEventListener("click", async (ev) => {
         ev.preventDefault();
@@ -103,7 +124,9 @@ export function initDataSiphonHooks() {
           if (token) {
             performScan(token);
           } else {
-            ui.notifications.warn("Data Siphon: Target token is no longer on the current scene.");
+            ui.notifications.warn(
+              "Data Siphon: Target token is no longer on the current scene.",
+            );
           }
         }
 
