@@ -45,9 +45,32 @@ Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
 });
 
 // ==========================================
-// 2. RENDER HOOK: Inject the Button
+// 2. RENDER HOOK: Inject the Button & Listeners
 // ==========================================
 Hooks.on("renderChatMessage", (message, html, data) => {
+  // -----------------------------------------------------
+  // Logic for Ping Token Button (found in scan results)
+  // -----------------------------------------------------
+  const pingBtn = html[0]?.querySelector(".ping-target-btn") || html.querySelector?.(".ping-target-btn");
+  if (pingBtn) {
+    pingBtn.addEventListener("click", async (ev) => {
+      ev.preventDefault();
+      const tokenId = ev.currentTarget.dataset.tokenId;
+      const token = canvas.tokens.get(tokenId);
+
+      if (token) {
+        // Pan the camera to the token and trigger a canvas ping
+        canvas.animatePan({ x: token.center.x, y: token.center.y, duration: 250 });
+        canvas.ping(token.center);
+      } else {
+        ui.notifications.warn("Data Siphon: Target token is no longer on the current scene.");
+      }
+    });
+  }
+
+  // -----------------------------------------------------
+  // Logic for Execute Data Siphon Button
+  // -----------------------------------------------------
   const targetIds = message.getFlag("lancer-tech-attack-automation", "dataSiphonTargetIds");
   if (!targetIds || targetIds.length === 0) return;
 
