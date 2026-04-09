@@ -106,15 +106,31 @@ export function performScan(target) {
         content: `
             <div class="lancer">
                 <h2 style="border-bottom: 1px solid white;">Scan Results: ${actor.name}</h2>
-                <h3>Class: ${sc_class}, Tier ${sc_tier}</h3>
-                ${hase_table_html}
-                ${stat_table_html}
+                <h3 style="margin-bottom: 10px;">Class: ${sc_class}, Tier ${sc_tier}</h3>
+                
+                <details>
+                    <summary><h3 style="display:inline; cursor: pointer;">Base Stats</h3></summary>
+                    <div style="margin-top: 5px;">
+                        ${hase_table_html}
+                        ${stat_table_html}
+                    </div>
+                </details>
                 <hr>
-                <h3>Templates:</h3>
-                ${sc_templates}
+                
+                <details>
+                    <summary><h3 style="display:inline; cursor: pointer;">Templates</h3></summary>
+                    <div style="margin-top: 5px;">
+                        ${sc_templates}
+                    </div>
+                </details>
                 <hr>
-                <h3>Systems & Weapons:</h3>
-                ${sc_list}
+                
+                <details>
+                    <summary><h3 style="display:inline; cursor: pointer;">Systems & Weapons</h3></summary>
+                    <div style="margin-top: 5px;">
+                        ${sc_list}
+                    </div>
+                </details>
             </div>
         `,
         whisper: [game.user.id]
