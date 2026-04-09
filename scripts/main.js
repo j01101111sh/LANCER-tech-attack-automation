@@ -1,5 +1,6 @@
 import { initDataSiphonHooks } from "./data-siphon.js";
 import { initEjectPowerCoresHooks } from "./eject-power-cores.js";
+import { initFragmentSignalHooks } from "./fragment-signal.js";
 
 /* ------------------------------------ */
 /* Initialize Module                    */
@@ -19,5 +20,5 @@ Hooks.once("ready", function () {
   // 2. Call the imported functions to activate their event listeners
   initDataSiphonHooks();
   initEjectPowerCoresHooks();
-  console.log("finished ready");
+  initFragmentSignalHooks();
 });
