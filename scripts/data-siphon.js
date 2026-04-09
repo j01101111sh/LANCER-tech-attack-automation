@@ -6,12 +6,16 @@ import { performScan } from "./scan.js";
 Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
     if (game.system.id !== "lancer" || userId !== game.user.id) return;
 
-    const isTechAttack = message.flags?.lancer?.attackData?.invade || 
+    const isTechAttack = message.getFlag("lancer", "attackData.invade") || 
                          (message.content && message.content.toLowerCase().includes("attack vs e-def"));
     if (!isTechAttack) return;
 
-    const speakerId = data.speaker?.actor;
-    if (!speakerId) return;
+    const speakerId = message.speaker?.actor;
+    if (!speakerId) {
+        console.warn("Lancer Tech Attack Automation | No speaker actor found, aborting.");
+        return;
+    }
+
     const actor = game.actors.get(speakerId);
     if (!actor) return;
 
@@ -22,19 +26,25 @@ Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
     if (!hasDataSiphon) return;
 
     const targetIds = Array.from(game.user.targets).map(t => t.id);
-    if (targetIds.length === 0) return;
+    if (targetIds.length === 0) {
+        console.warn("Lancer Tech Attack Automation | No targets selected, aborting.");
+        return;
+    }
 
-    message.updateSource(foundry.utils.expandObject({
-        "flags.lancer-tech-attack-automation.dataSiphonTargetIds": targetIds
-    }));
-    console.log(message)
+    message.updateSource({
+        flags: {
+            "lancer-tech-attack-automation": {
+                dataSiphonTargetIds: targetIds
+            }
+        }
+    });
+    console.log("Lancer Tech Attack Automation | Flag set successfully:", message._source.flags["lancer-tech-attack-automation"]);
 });
 
 // ==========================================
 // 2. RENDER HOOK: Inject the Button
 // ==========================================
 Hooks.on("renderChatMessage", (message, html, data) => {
-    console.log(message)
     const targetIds = message.getFlag("lancer-tech-attack-automation", "dataSiphonTargetIds");
     if (!targetIds || targetIds.length === 0) return;
 
@@ -46,12 +56,12 @@ Hooks.on("renderChatMessage", (message, html, data) => {
         </div>
     `;
 
-  const messageContent = html.querySelector('.message-content');
+  const messageContent = html[0]?.querySelector('.message-content') || html.querySelector('.message-content');
   if (messageContent) {
       messageContent.insertAdjacentHTML('beforeend', buttonHtml);
   }
 
-  const btn = html.querySelector('.data-siphon-btn');
+  const btn = html[0]?.querySelector('.data-siphon-btn') || html.querySelector('.data-siphon-btn');
   if (btn) {
     btn.addEventListener('click', async (ev) => {
         ev.preventDefault();
