@@ -22,13 +22,7 @@ Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
     const targetIds = Array.from(game.user.targets).map(t => t.id);
     if (targetIds.length === 0) return;
 
-    message.updateSource({
-        flags: {
-            dataSiphon: {
-                targetIds: targetIds
-            }
-        }
-    });
+    message.setFlag("tech-automation","dataSiphon","targetIds");
     console.log(message)
 });
 
