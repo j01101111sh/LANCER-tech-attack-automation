@@ -72,5 +72,5 @@ Hooks.on("renderChatMessage", (message, html, data) => {
         
         btn.innerHTML = `<i class="fas fa-check"></i> Scan Complete`;
     });
-}
+  }
 });
