@@ -22,7 +22,9 @@ Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
     const targetIds = Array.from(game.user.targets).map(t => t.id);
     if (targetIds.length === 0) return;
 
-    message.setFlag("tech-automation","dataSiphon",targetIds);
+    message.updateSource(foundry.utils.expandObject({
+        "flags.LANCER-tech-attack-automation.dataSiphonTargetIds": targetIds
+    }));
     console.log(message)
 });
 
@@ -31,7 +33,7 @@ Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
 // ==========================================
 Hooks.on("renderChatMessage", (message, html, data) => {
     console.log(message)
-    const targetIds = message.getFlag("tech-automation", "dataSiphon");
+    const targetIds = message.getFlag("LANCER-tech-attack-automation", "dataSiphonTargetIds");
     if (!targetIds || targetIds.length === 0) return;
 
     const buttonHtml = `
