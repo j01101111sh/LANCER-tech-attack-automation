@@ -1,5 +1,5 @@
 // data-siphon.js
-import { performScan } from "./scan-utility.js";
+import { performScan } from "./scan.js";
 
 // ==========================================
 // 1. PRE-CREATE HOOK: Save the Targets
