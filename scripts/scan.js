@@ -26,7 +26,8 @@ export function performScan(target) {
         sc_desc = i.system.effect ? i.system.effect : "No description given.";
         if (i.system.trigger) sc_desc = `<em>Trigger: ${i.system.trigger}</em><br>${sc_desc}`;
       }
-      sc_list += `<details style="margin-left: 10px;"><summary>${sc_name}</summary><p style="margin-top:5px; font-size:0.9em;">${sc_desc}</p></details>`;
+      // Removed the custom 0.9em font size to default to standard Foundry text size
+      sc_list += `<details style="margin-left: 10px;"><summary style="cursor: pointer;">${sc_name}</summary><p style="margin-top:5px;">${sc_desc}</p></details>`;
     });
     return sc_list;
   }
@@ -105,11 +106,16 @@ export function performScan(target) {
     speaker: ChatMessage.getSpeaker({ alias: "Data Siphon System" }),
     content: `
             <div class="lancer">
-                <h2 style="border-bottom: 1px solid white;">Scan Results: ${actor.name}</h2>
+                <h2 style="border-bottom: 1px solid white; display: flex; justify-content: space-between; align-items: center;">
+                    <span>Scan Results: ${actor.name}</span>
+                    <a class="ping-target-btn" data-token-id="${target.id}" title="Ping Target" style="cursor: pointer; font-size: 0.8em; margin-right: 5px;">
+                        <i class="fas fa-crosshairs"></i>
+                    </a>
+                </h2>
                 <h3 style="margin-bottom: 10px;">Class: ${sc_class}, Tier ${sc_tier}</h3>
                 
                 <details>
-                    <summary><h3 style="display:inline; cursor: pointer;">Base Stats</h3></summary>
+                    <summary style="cursor: pointer; font-weight: bold;">Base Stats</summary>
                     <div style="margin-top: 5px;">
                         ${hase_table_html}
                         ${stat_table_html}
@@ -118,7 +124,7 @@ export function performScan(target) {
                 <hr>
                 
                 <details>
-                    <summary><h3 style="display:inline; cursor: pointer;">Templates</h3></summary>
+                    <summary style="cursor: pointer; font-weight: bold;">Templates</summary>
                     <div style="margin-top: 5px;">
                         ${sc_templates}
                     </div>
@@ -126,12 +132,13 @@ export function performScan(target) {
                 <hr>
                 
                 <details>
-                    <summary><h3 style="display:inline; cursor: pointer;">Systems & Weapons</h3></summary>
+                    <summary style="cursor: pointer; font-weight: bold;">Systems & Weapons</summary>
                     <div style="margin-top: 5px;">
                         ${sc_list}
                     </div>
                 </details>
             </div>
         `,
+    whisper: [game.user.id],
   });
 }
