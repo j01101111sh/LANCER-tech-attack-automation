@@ -1,6 +1,3 @@
-// data-siphon.js
-import { performScan } from "./scan.js";
-
 // ==========================================
 // 1. PRE-CREATE HOOK: Save the Targets
 // ==========================================
@@ -58,7 +55,6 @@ Hooks.on("renderChatMessage", (message, html, data) => {
         for (let id of targetIds) {
             const token = canvas.tokens.get(id);
             if (token) {
-                // This calls the imported function from scan-utility.js
                 performScan(token);
             } else {
                 ui.notifications.warn("Data Siphon: Target token is no longer on the current scene.");

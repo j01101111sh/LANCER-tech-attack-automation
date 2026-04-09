@@ -2,7 +2,7 @@
  * Executes a Lancer Scan action on a single target and outputs the results to chat.
  * @param {Object} target - A single target/token object to be scanned.
  */
-export function performScan(target) {
+function performScan(target) {
     if (!target || !target.actor) return;
 
     // Helper functions
