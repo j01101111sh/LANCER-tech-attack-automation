@@ -12,7 +12,9 @@ export function performScan(target) {
 
   function construct_features(items, origin) {
     let sc_list = `<p><strong>${origin}</strong></p>`;
-    let sc_features = items.filter((f) => f.system.origin?.name === origin).sort(sort_features);
+    let sc_features = items
+      .filter((f) => f.system.origin?.name === origin)
+      .sort(sort_features);
 
     sc_features.forEach((i) => {
       let sc_name = ``;
@@ -24,7 +26,8 @@ export function performScan(target) {
       } else {
         sc_name = i.name;
         sc_desc = i.system.effect ? i.system.effect : "No description given.";
-        if (i.system.trigger) sc_desc = `<em>Trigger: ${i.system.trigger}</em><br>${sc_desc}`;
+        if (i.system.trigger)
+          sc_desc = `<em>Trigger: ${i.system.trigger}</em><br>${sc_desc}`;
       }
       // Removed the custom 0.9em font size to default to standard Foundry text size
       sc_list += `<details style="margin-left: 10px;"><summary style="cursor: pointer;">${sc_name}</summary><p style="margin-top:5px;">${sc_desc}</p></details>`;
@@ -34,7 +37,10 @@ export function performScan(target) {
 
   function construct_templates(items) {
     if (!items || items.length === 0) return "<p>NONE</p>";
-    return items.map((i) => `<p style="margin-bottom:0;">${i.name}</p>`).join("") + "<br>";
+    return (
+      items.map((i) => `<p style="margin-bottom:0;">${i.name}</p>`).join("") +
+      "<br>"
+    );
   }
 
   let actor = target.actor;
@@ -72,8 +78,12 @@ export function performScan(target) {
       <tr>
         <td>${actor.system.size || 1}</td>
         <td>${actor.system.activations || 1}</td>
-        <td>${actor.system.structure?.value || 0}/${actor.system.structure?.max || 0}</td>
-        <td>${actor.system.stress?.value || 0}/${actor.system.stress?.max || 0}</td>
+        <td>${actor.system.structure?.value || 0}/${
+          actor.system.structure?.max || 0
+        }</td>
+        <td>${actor.system.stress?.value || 0}/${
+          actor.system.stress?.max || 0
+        }</td>
       </tr>
     </table>`;
 
@@ -82,7 +92,9 @@ export function performScan(target) {
   let sc_class = !classes || classes.length === 0 ? "NONE" : classes[0].name;
   let sc_tier = actor.system.tier || 1;
 
-  const templates = items.filter((i) => i.is_npc_template && i.is_npc_template());
+  const templates = items.filter(
+    (i) => i.is_npc_template && i.is_npc_template(),
+  );
   let sc_templates = construct_templates(templates);
 
   let sc_list = ``;
@@ -113,7 +125,7 @@ export function performScan(target) {
                     </a>
                 </h2>
                 <h3 style="margin-bottom: 10px;">Class: ${sc_class}, Tier ${sc_tier}</h3>
-                
+
                 <details>
                     <summary style="cursor: pointer; font-weight: bold;">Base Stats</summary>
                     <div style="margin-top: 5px;">
@@ -122,7 +134,7 @@ export function performScan(target) {
                     </div>
                 </details>
                 <hr>
-                
+
                 <details>
                     <summary style="cursor: pointer; font-weight: bold;">Templates</summary>
                     <div style="margin-top: 5px;">
@@ -130,7 +142,7 @@ export function performScan(target) {
                     </div>
                 </details>
                 <hr>
-                
+
                 <details>
                     <summary style="cursor: pointer; font-weight: bold;">Systems & Weapons</summary>
                     <div style="margin-top: 5px;">

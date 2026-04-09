@@ -11,7 +11,9 @@ Hooks.once("init", async function () {
 /* When Ready                           */
 /* ------------------------------------ */
 Hooks.once("ready", function () {
-  console.log("LANCER Tech Attack Automation | Ready! Firing up automation hooks.");
+  console.log(
+    "LANCER Tech Attack Automation | Ready! Firing up automation hooks.",
+  );
 
   // 2. Call the imported functions to activate their event listeners
   initDataSiphonHooks();
