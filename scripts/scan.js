@@ -132,7 +132,6 @@ export function performScan(target) {
                     </div>
                 </details>
             </div>
-        `,
-        whisper: [game.user.id]
+        `
     });
 }
