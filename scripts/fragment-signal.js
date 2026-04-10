@@ -29,10 +29,8 @@ export function initFragmentSignalHooks() {
       }
     }
 
-    let content = message.content || "";
-
     // Exclude appending if the text is already there to prevent infinite loops / duplicates
-    if (isBasicTechAttack && !content.includes("Fragment Signal")) {
+    if (isBasicTechAttack && !message.content.includes("Fragment Signal")) {
       // Determine if we have valid Compendium links, fallback to bold text if not
       const impairedText = impairedUUID
         ? `@UUID[${impairedUUID}]{Impaired}`
@@ -49,7 +47,7 @@ export function initFragmentSignalHooks() {
       `;
 
       // Update the message source before it saves to the database (V12 compatible)
-      const updatedContent = content + fragmentSignalHTML;
+      const updatedContent = message.content + fragmentSignalHTML;
       message.updateSource({ content: updatedContent });
     }
   });
