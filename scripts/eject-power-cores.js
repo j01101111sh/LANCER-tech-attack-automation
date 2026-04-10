@@ -41,7 +41,13 @@ export function initEjectPowerCoresHooks() {
       // If a replacement was made, update the message source before it saves to the database
       if (updatedContent !== message.content) {
         message.updateSource({ content: updatedContent });
+      } else {
+        console.warn(
+          "Lancer Tech Attack Automation | No updates made to message",
+        );
       }
+    } else {
+      console.warn("Lancer Tech Attack Automation | UUID not found for jammed");
     }
   });
 }
