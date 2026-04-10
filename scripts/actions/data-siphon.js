@@ -1,4 +1,4 @@
-import { performScan } from "./scan.js";
+import { performScan } from "../utilities/scan.js";
 
 export function initDataSiphonHooks() {
   // ==========================================
