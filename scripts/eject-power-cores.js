@@ -6,10 +6,7 @@ export function initEjectPowerCoresHooks() {
     // Only process the message if the current user is the one creating it
     if (userId !== game.user.id) return;
 
-    const isEjectPowerCores = message.content.includes(
-      "INVADE :: Eject Power Cores",
-    );
-    if (!isEjectPowerCores) return;
+    if (!message.content.includes("INVADE :: Eject Power Cores")) return;
 
     // Cache UUIDs for the conditions to make them clickable/draggable
     if (!jammedUUID) {
