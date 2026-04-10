@@ -3,11 +3,13 @@ let immobilizedUUID = "";
 
 export function initBalanceControlLockoutHooks() {
   Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
-    // Determine if this is a balance control lockout and only process for creating user
+    // Only process the message if the current user is the one creating it
+    if (userId !== game.user.id) return;
+    // Determine if this is a balance control lockout
     const isBalanceControlLockout = message.content.includes(
       "INVADE :: Balance Control Lockout",
     );
-    if (!isBalanceControlLockout || userId !== game.user.id) return;
+    if (!isBalanceControlLockout) return;
 
     // Cache UUIDs for the conditions to make them clickable/draggable
     if (!proneUUID || !immobilizedUUID) {
