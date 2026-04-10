@@ -12,19 +12,21 @@ export function initBalanceControlLockoutHooks() {
     if (!isBalanceControlLockout) return;
 
     // Cache UUIDs for the conditions to make them clickable/draggable
-    const packKey = "world.status-items";
-    const pack = game.packs.get(packKey);
+    if (!proneUUID || !immobilizedUUID) {
+      const packKey = "world.status-items";
+      const pack = game.packs.get(packKey);
 
-    if (pack) {
-      if (!proneUUID) {
-        const ProneEntry = pack.index.getName("Prone");
-        if (ProneEntry)
-          proneUUID = `Compendium.${packKey}.Item.${ProneEntry._id}`;
-      }
-      if (!immobilizedUUID) {
-        const immobilizedEntry = pack.index.getName("Immobilized");
-        if (immobilizedEntry)
-          immobilizedUUID = `Compendium.${packKey}.Item.${immobilizedEntry._id}`;
+      if (pack) {
+        if (!proneUUID) {
+          const ProneEntry = pack.index.getName("Prone");
+          if (ProneEntry)
+            proneUUID = `Compendium.${packKey}.Item.${ProneEntry._id}`;
+        }
+        if (!immobilizedUUID) {
+          const immobilizedEntry = pack.index.getName("Immobilized");
+          if (immobilizedEntry)
+            immobilizedUUID = `Compendium.${packKey}.Item.${immobilizedEntry._id}`;
+        }
       }
     }
 
