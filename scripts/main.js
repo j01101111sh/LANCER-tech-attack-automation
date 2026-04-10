@@ -1,6 +1,7 @@
 import { initDataSiphonHooks } from "./data-siphon.js";
 import { initEjectPowerCoresHooks } from "./eject-power-cores.js";
 import { initFragmentSignalHooks } from "./fragment-signal.js";
+import { initBalanceControlLockoutHooks } from "./balance-control-lockout.js";
 
 /* ------------------------------------ */
 /* Initialize Module                    */
@@ -21,4 +22,5 @@ Hooks.once("ready", function () {
   initDataSiphonHooks();
   initEjectPowerCoresHooks();
   initFragmentSignalHooks();
+  initBalanceControlLockoutHooks();
 });
