@@ -30,7 +30,7 @@ export function initFragmentSignalHooks() {
     }
 
     // Exclude appending if the text is already there to prevent infinite loops / duplicates
-    if (isBasicTechAttack && !message.content.includes("Fragment Signal")) {
+    if (!message.content.includes("Fragment Signal")) {
       // Determine if we have valid Compendium links, fallback to bold text if not
       const impairedText = impairedUUID
         ? `@UUID[${impairedUUID}]{Impaired}`
