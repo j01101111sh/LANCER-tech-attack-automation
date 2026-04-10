@@ -15,7 +15,7 @@ jobs:
     steps:
       # 1. Check out the repository code
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # 2. Set up a Python environment (required for pre-commit)
       - name: Set up Python
