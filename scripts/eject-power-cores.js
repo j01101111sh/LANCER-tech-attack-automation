@@ -30,17 +30,16 @@ export function initEjectPowerCoresHooks() {
       }
     }
 
-    let content = message.content || "";
     // Check if this is the Eject Power Cores message and there is a jammedUUID.
     if (jammedUUID) {
       // Replace the whole word "Jammed" with the Foundry link tag
-      const updatedContent = content.replace(
+      const updatedContent = message.content.replace(
         "Jammed",
         `@UUID[${jammedUUID}]{Jammed}`,
       );
 
       // If a replacement was made, update the message source before it saves to the database
-      if (updatedContent !== content) {
+      if (updatedContent !== message.content) {
         message.updateSource({ content: updatedContent });
       }
     }
