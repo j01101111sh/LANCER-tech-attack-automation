@@ -46,9 +46,8 @@ export function initFragmentSignalHooks() {
         </div>
       `;
 
-      // Update the message source before it saves to the database (V12 compatible)
-      const updatedContent = message.content + fragmentSignalHTML;
-      message.updateSource({ content: updatedContent });
+      // Update the message source before it saves to the database
+      message.updateSource({ content: message.content + fragmentSignalHTML });
     }
   });
 }
