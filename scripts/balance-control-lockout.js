@@ -28,12 +28,9 @@ export function initBalanceControlLockoutHooks() {
       }
     }
 
-    let content = message.content || "";
-
-    // Exclude appending if the text is already there to prevent infinite loops / duplicates
-    if (isBalanceControlLockout && proneUUID && immobilizedUUID) {
+    if (proneUUID && immobilizedUUID) {
       // Replace the whole word "Prone" with the Foundry link tag
-      let updatedContent = content.replace(
+      let updatedContent = message.content.replace(
         "Prone",
         `@UUID[${proneUUID}]{Prone}`,
       );
@@ -45,7 +42,7 @@ export function initBalanceControlLockoutHooks() {
       );
 
       // If a replacement was made, update the message source before it saves to the database
-      if (updatedContent !== content) {
+      if (updatedContent !== message.content) {
         message.updateSource({ content: updatedContent });
       }
     }
