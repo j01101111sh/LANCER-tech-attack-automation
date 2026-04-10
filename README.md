@@ -10,7 +10,7 @@ This module automates several common Invade options and tech actions, reducing t
 
 - **Fragment Signal:** Adds a description for this invade option with drag-and-droppable statuses.
 - **Eject Power Cores:** Turns the Jammed conditions in the description to drag-and-droppable statuses to easily apply them on a hit.
-- **Data Siphon:** Automates the effects of Data Siphon trait of the Chomolungma by adding a prompt to scan after every tech attack for attackers with the trait.
+- **Data Siphon:** Automates the effects of the Data Siphon trait of the Chomolungma by adding a button to scan after every tech attack for attackers with the trait.
 
 ## Usage
 
