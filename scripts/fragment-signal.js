@@ -6,9 +6,7 @@ export function initFragmentSignalHooks() {
     // Only process the message if the current user is the one creating it
     if (userId !== game.user.id) return;
     // Determine if this is a basic tech attack/invade
-    // (You can adjust this condition based on how the weapon/macro is explicitly named in your world)
-    const isBasicTechAttack = message.content.includes("INVADE :: TECH ATTACK");
-    if (!isBasicTechAttack) return;
+    if (!message.content.includes("INVADE :: TECH ATTACK")) return;
 
     // Cache UUIDs for the conditions to make them clickable/draggable
     if (!impairedUUID || !slowedUUID) {
