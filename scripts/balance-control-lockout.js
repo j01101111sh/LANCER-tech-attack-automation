@@ -6,10 +6,7 @@ export function initBalanceControlLockoutHooks() {
     // Only process the message if the current user is the one creating it
     if (userId !== game.user.id) return;
     // Determine if this is a balance control lockout
-    const isBalanceControlLockout = message.content.includes(
-      "INVADE :: Balance Control Lockout",
-    );
-    if (!isBalanceControlLockout) return;
+    if (!message.content.includes("INVADE :: Balance Control Lockout")) return;
 
     // Cache UUIDs for the conditions to make them clickable/draggable
     if (!proneUUID || !immobilizedUUID) {
