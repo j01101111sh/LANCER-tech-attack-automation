@@ -5,11 +5,12 @@ export function initDataSiphonHooks() {
   // 1. PRE-CREATE HOOK: Save the Targets
   // ==========================================
   Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
-    // Determine if this is a data siphon eligible message and only process for creating user
+    if (game.system.id !== "lancer" || userId !== game.user.id) return;
+
     const isTechAttack =
       message.getFlag("lancer", "attackData.invade") ||
       (message.content && message.content.toLowerCase().includes("tech atk"));
-    if (!isTechAttack || userId !== game.user.id) return;
+    if (!isTechAttack) return;
 
     const speakerId = message.speaker?.actor;
     if (!speakerId) {
