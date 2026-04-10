@@ -6,11 +6,9 @@ export function initEjectPowerCoresHooks() {
     // Only process the message if the current user is the one creating it
     if (userId !== game.user.id) return;
 
-    const isEjectPowerCores = message.content.includes(
-      "INVADE :: Eject Power Cores",
-    );
-    if (!isEjectPowerCores) return;
+    if (!message.content.includes("INVADE :: Eject Power Cores")) return;
 
+    // Cache UUIDs for the conditions to make them clickable/draggable
     if (!jammedUUID) {
       const packKey = "world.status-items";
       const pack = game.packs.get(packKey);
@@ -29,19 +27,24 @@ export function initEjectPowerCoresHooks() {
       }
     }
 
-    let content = message.content || "";
     // Check if this is the Eject Power Cores message and there is a jammedUUID.
-    if (isEjectPowerCores && jammedUUID) {
+    if (jammedUUID) {
       // Replace the whole word "Jammed" with the Foundry link tag
-      const updatedContent = content.replace(
+      const updatedContent = message.content.replace(
         "Jammed",
         `@UUID[${jammedUUID}]{Jammed}`,
       );
 
       // If a replacement was made, update the message source before it saves to the database
-      if (updatedContent !== content) {
+      if (updatedContent !== message.content) {
         message.updateSource({ content: updatedContent });
+      } else {
+        console.warn(
+          "Lancer Tech Attack Automation | No updates made to message",
+        );
       }
+    } else {
+      console.warn("Lancer Tech Attack Automation | UUID not found for jammed");
     }
   });
 }

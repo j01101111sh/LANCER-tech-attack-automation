@@ -7,10 +7,13 @@ export function initDataSiphonHooks() {
   Hooks.on("preCreateChatMessage", (message, data, options, userId) => {
     if (game.system.id !== "lancer" || userId !== game.user.id) return;
 
-    const isTechAttack =
-      message.getFlag("lancer", "attackData.invade") ||
-      (message.content && message.content.toLowerCase().includes("tech atk"));
-    if (!isTechAttack) return;
+    if (
+      !(
+        message.getFlag("lancer", "attackData.invade") ||
+        (message.content && message.content.toLowerCase().includes("tech atk"))
+      )
+    )
+      return;
 
     const speakerId = message.speaker?.actor;
     if (!speakerId) {

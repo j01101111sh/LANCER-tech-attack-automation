@@ -6,34 +6,30 @@ export function initBalanceControlLockoutHooks() {
     // Only process the message if the current user is the one creating it
     if (userId !== game.user.id) return;
     // Determine if this is a balance control lockout
-    const isBalanceControlLockout = message.content.includes(
-      "INVADE :: Balance Control Lockout",
-    );
-    if (!isBalanceControlLockout) return;
+    if (!message.content.includes("INVADE :: Balance Control Lockout")) return;
 
     // Cache UUIDs for the conditions to make them clickable/draggable
-    const packKey = "world.status-items";
-    const pack = game.packs.get(packKey);
+    if (!proneUUID || !immobilizedUUID) {
+      const packKey = "world.status-items";
+      const pack = game.packs.get(packKey);
 
-    if (pack) {
-      if (!proneUUID) {
-        const ProneEntry = pack.index.getName("Prone");
-        if (ProneEntry)
-          proneUUID = `Compendium.${packKey}.Item.${ProneEntry._id}`;
-      }
-      if (!immobilizedUUID) {
-        const immobilizedEntry = pack.index.getName("Immobilized");
-        if (immobilizedEntry)
-          immobilizedUUID = `Compendium.${packKey}.Item.${immobilizedEntry._id}`;
+      if (pack) {
+        if (!proneUUID) {
+          const ProneEntry = pack.index.getName("Prone");
+          if (ProneEntry)
+            proneUUID = `Compendium.${packKey}.Item.${ProneEntry._id}`;
+        }
+        if (!immobilizedUUID) {
+          const immobilizedEntry = pack.index.getName("Immobilized");
+          if (immobilizedEntry)
+            immobilizedUUID = `Compendium.${packKey}.Item.${immobilizedEntry._id}`;
+        }
       }
     }
 
-    let content = message.content || "";
-
-    // Exclude appending if the text is already there to prevent infinite loops / duplicates
-    if (isBalanceControlLockout && proneUUID && immobilizedUUID) {
+    if (proneUUID && immobilizedUUID) {
       // Replace the whole word "Prone" with the Foundry link tag
-      let updatedContent = content.replace(
+      let updatedContent = message.content.replace(
         "Prone",
         `@UUID[${proneUUID}]{Prone}`,
       );
@@ -45,9 +41,17 @@ export function initBalanceControlLockoutHooks() {
       );
 
       // If a replacement was made, update the message source before it saves to the database
-      if (updatedContent !== content) {
+      if (updatedContent !== message.content) {
         message.updateSource({ content: updatedContent });
+      } else {
+        console.warn(
+          "Lancer Tech Attack Automation | No updates made to message",
+        );
       }
+    } else {
+      console.warn(
+        "Lancer Tech Attack Automation | UUID not found for prone or immobilized",
+      );
     }
   });
 }

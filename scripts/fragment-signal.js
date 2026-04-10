@@ -6,31 +6,29 @@ export function initFragmentSignalHooks() {
     // Only process the message if the current user is the one creating it
     if (userId !== game.user.id) return;
     // Determine if this is a basic tech attack/invade
-    // (You can adjust this condition based on how the weapon/macro is explicitly named in your world)
-    const isBasicTechAttack = message.content.includes("INVADE :: TECH ATTACK");
-    if (!isBasicTechAttack) return;
+    if (!message.content.includes("INVADE :: TECH ATTACK")) return;
 
     // Cache UUIDs for the conditions to make them clickable/draggable
-    const packKey = "world.status-items";
-    const pack = game.packs.get(packKey);
+    if (!impairedUUID || !slowedUUID) {
+      const packKey = "world.status-items";
+      const pack = game.packs.get(packKey);
 
-    if (pack) {
-      if (!impairedUUID) {
-        const impairedEntry = pack.index.getName("Impaired");
-        if (impairedEntry)
-          impairedUUID = `Compendium.${packKey}.Item.${impairedEntry._id}`;
-      }
-      if (!slowedUUID) {
-        const slowedEntry = pack.index.getName("Slowed");
-        if (slowedEntry)
-          slowedUUID = `Compendium.${packKey}.Item.${slowedEntry._id}`;
+      if (pack) {
+        if (!impairedUUID) {
+          const impairedEntry = pack.index.getName("Impaired");
+          if (impairedEntry)
+            impairedUUID = `Compendium.${packKey}.Item.${impairedEntry._id}`;
+        }
+        if (!slowedUUID) {
+          const slowedEntry = pack.index.getName("Slowed");
+          if (slowedEntry)
+            slowedUUID = `Compendium.${packKey}.Item.${slowedEntry._id}`;
+        }
       }
     }
 
-    let content = message.content || "";
-
     // Exclude appending if the text is already there to prevent infinite loops / duplicates
-    if (isBasicTechAttack && !content.includes("Fragment Signal")) {
+    if (!message.content.includes("Fragment Signal")) {
       // Determine if we have valid Compendium links, fallback to bold text if not
       const impairedText = impairedUUID
         ? `@UUID[${impairedUUID}]{Impaired}`
@@ -46,9 +44,8 @@ export function initFragmentSignalHooks() {
         </div>
       `;
 
-      // Update the message source before it saves to the database (V12 compatible)
-      const updatedContent = content + fragmentSignalHTML;
-      message.updateSource({ content: updatedContent });
+      // Update the message source before it saves to the database
+      message.updateSource({ content: message.content + fragmentSignalHTML });
     }
   });
 }
