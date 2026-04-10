@@ -11,6 +11,7 @@ export function initEjectPowerCoresHooks() {
     );
     if (!isEjectPowerCores) return;
 
+    // Cache UUIDs for the conditions to make them clickable/draggable
     if (!jammedUUID) {
       const packKey = "world.status-items";
       const pack = game.packs.get(packKey);
