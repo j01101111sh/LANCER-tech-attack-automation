@@ -11,19 +11,21 @@ export function initFragmentSignalHooks() {
     if (!isBasicTechAttack) return;
 
     // Cache UUIDs for the conditions to make them clickable/draggable
-    const packKey = "world.status-items";
-    const pack = game.packs.get(packKey);
+    if (!impairedUUID || !slowedUUID) {
+      const packKey = "world.status-items";
+      const pack = game.packs.get(packKey);
 
-    if (pack) {
-      if (!impairedUUID) {
-        const impairedEntry = pack.index.getName("Impaired");
-        if (impairedEntry)
-          impairedUUID = `Compendium.${packKey}.Item.${impairedEntry._id}`;
-      }
-      if (!slowedUUID) {
-        const slowedEntry = pack.index.getName("Slowed");
-        if (slowedEntry)
-          slowedUUID = `Compendium.${packKey}.Item.${slowedEntry._id}`;
+      if (pack) {
+        if (!impairedUUID) {
+          const impairedEntry = pack.index.getName("Impaired");
+          if (impairedEntry)
+            impairedUUID = `Compendium.${packKey}.Item.${impairedEntry._id}`;
+        }
+        if (!slowedUUID) {
+          const slowedEntry = pack.index.getName("Slowed");
+          if (slowedEntry)
+            slowedUUID = `Compendium.${packKey}.Item.${slowedEntry._id}`;
+        }
       }
     }
 
