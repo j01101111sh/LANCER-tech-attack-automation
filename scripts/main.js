@@ -1,7 +1,7 @@
-import { initDataSiphonHooks } from "./data-siphon.js";
-import { initEjectPowerCoresHooks } from "./eject-power-cores.js";
-import { initFragmentSignalHooks } from "./fragment-signal.js";
-import { initBalanceControlLockoutHooks } from "./balance-control-lockout.js";
+import { initDataSiphonHooks } from "./actions/data-siphon.js";
+import { initEjectPowerCoresHooks } from "./actions/eject-power-cores.js";
+import { initFragmentSignalHooks } from "./actions/fragment-signal.js";
+import { initBalanceControlLockoutHooks } from "./actions/balance-control-lockout.js";
 
 /* ------------------------------------ */
 /* Initialize Module                    */
